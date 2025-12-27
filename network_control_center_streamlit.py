@@ -324,7 +324,7 @@ class YantiSiggsWebsite:
                 ('DJ Yanti Rocks Harare Club Scene', 'Club Magazine', '2024-01-20',
                  'https://clubmag.co.zw/dj-yanti-review',
                  'Yanti Siggs brought the house down with her signature blend of afro house and electronic beats...',
-                 'https://images.unsplash.com/phone-1470225620780-dba8ba36b745?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')
+                 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')
             ]
             cursor.executemany('INSERT INTO press (title, outlet, date, url, excerpt, image_url) VALUES (?,?,?,?,?,?)', sample_press)
         
@@ -1321,58 +1321,6 @@ def load_css():
         font-weight: bold;
         margin-top: 0.5rem;
         cursor: pointer;
-    }
-    
-    /* NEW: Mobile tab fix */
-    /* Prevent horizontal scrolling on the main page */
-    section[tabindex="0"] {
-        overflow-x: hidden !important;
-    }
-    
-    /* Specific fix for tabs to prevent text wrapping */
-    div[data-testid="stTabs"] {
-        max-width: 100vw !important;
-    }
-    
-    /* Make tabs scroll horizontally on mobile if needed */
-    div[data-testid="stTabs"] > div > div {
-        display: flex !important;
-        flex-wrap: nowrap !important;
-        overflow-x: auto !important;
-        padding-bottom: 5px;
-    }
-    
-    /* Individual tab styling for mobile */
-    @media (max-width: 768px) {
-        .stTabs [data-baseweb="tab-list"] {
-            gap: 0.5rem !important;
-            padding: 0.25rem !important;
-        }
-        
-        .stTabs [data-baseweb="tab"] {
-            padding: 0 0.5rem !important;
-            font-size: 0.85rem !important;
-            height: 40px !important;
-            min-width: fit-content !important;
-            white-space: nowrap !important;
-        }
-        
-        /* Hide scrollbar but keep functionality */
-        div[data-testid="stTabs"] > div > div::-webkit-scrollbar {
-            display: none;
-        }
-        
-        div[data-testid="stTabs"] > div > div {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-    }
-    
-    /* Ensure tab text doesn't break */
-    .stTabs [data-baseweb="tab"] span {
-        white-space: nowrap !important;
-        overflow: hidden !important;
-        text-overflow: ellipsis !important;
     }
     </style>
     """, unsafe_allow_html=True)
