@@ -90,7 +90,7 @@ class YantiSiggsWebsite:
                     date TEXT,
                     time TEXT,
                     venue TEXT,
-                        description TEXT,
+                    description TEXT,
                     image_url TEXT,
                     registration_url TEXT,
                     status TEXT DEFAULT 'upcoming'
@@ -269,7 +269,7 @@ class YantiSiggsWebsite:
         if cursor.fetchone()[0] == 0:
             sample_gallery = [
                 ('DJ Performance', 'Music', 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', 'Live DJ set at Club 1940'),
-                ('Film Set', 'Film', 'https://images.unsplash.com/photo-1542204165-65bf26472b9b?ixlib=rb-4.0.3&auto=format&fit=crop&w-800&q=80', 'On set directing latest film'),
+                ('Film Set', 'Film', 'https://images.unsplash.com/photo-1542204165-65bf26472b9b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', 'On set directing latest film'),
                 ('Studio Session', 'Studio', 'https://images.unsplash.com/photo-1511379938547-c1f69419868d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', 'Recording session at Yanti Studios'),
                 ('Red Carpet', 'Events', 'https://images.unsplash.com/photo-1492684223066-e9e4aab4d25e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', 'Awards night red carpet')
             ]
@@ -950,9 +950,14 @@ def load_css():
         box-shadow: 0 5px 15px rgba(6, 214, 160, 0.4);
     }
     
-    /* Tab styling */
+    /* FIX FOR MOBILE TABS - SOLUTION 5 */
+    .stTabs {
+        position: relative;
+    }
+    
+    /* Default desktop styling for tabs */
     .stTabs [data-baseweb="tab-list"] {
-        gap: 2rem;
+        gap: 1rem;
         background: rgba(26, 26, 46, 0.1);
         border-radius: 10px;
         padding: 0.5rem;
@@ -960,16 +965,105 @@ def load_css():
     
     .stTabs [data-baseweb="tab"] {
         height: 50px;
-        white-space: pre-wrap;
-        border-radius: 10px 10px 0 0;
         padding: 0 1rem;
         font-weight: 600;
         color: #ffa726 !important;
+        white-space: nowrap !important; /* Prevent text wrapping */
     }
     
     .stTabs [aria-selected="true"] {
         background: linear-gradient(135deg, #ff6b6b 0%, #ffa726 100%) !important;
         color: white !important;
+    }
+    
+    /* MOBILE-SPECIFIC TAB FIXES */
+    @media (max-width: 768px) {
+        .stTabs [data-baseweb="tab-list"] {
+            display: flex !important;
+            flex-direction: row !important;
+            flex-wrap: nowrap !important;
+            overflow-x: auto !important;
+            overflow-y: hidden !important;
+            -webkit-overflow-scrolling: touch !important;
+            gap: 0.5rem !important;
+            padding: 0.25rem !important;
+        }
+        
+        .stTabs [data-baseweb="tab"] {
+            flex: 0 0 auto !important; /* Don't grow, don't shrink */
+            min-width: 70px !important;
+            max-width: 100px !important;
+            height: 40px !important;
+            padding: 0 0.5rem !important;
+            font-size: 0.8rem !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            white-space: nowrap !important; /* Force single line */
+        }
+        
+        /* Force text to stay on one line */
+        .stTabs [data-baseweb="tab"] > div {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: center !important;
+            line-height: 1 !important;
+            white-space: nowrap !important;
+        }
+        
+        .stTabs [data-baseweb="tab"] span {
+            display: block !important;
+            line-height: 1.2 !important;
+            white-space: nowrap !important;
+        }
+        
+        /* Hide scrollbar for cleaner look */
+        .stTabs [data-baseweb="tab-list"]::-webkit-scrollbar {
+            height: 4px !important;
+        }
+        
+        .stTabs [data-baseweb="tab-list"]::-webkit-scrollbar-thumb {
+            background: rgba(255, 107, 107, 0.3) !important;
+            border-radius: 4px !important;
+        }
+        
+        /* Adjust header for mobile */
+        .header-container {
+            flex-direction: column;
+            text-align: center;
+            padding: 2rem 1rem;
+            min-height: auto;
+        }
+        
+        .header-content {
+            padding-right: 0;
+            margin-bottom: 2rem;
+        }
+        
+        .header-title { 
+            font-size: 2.5rem; 
+        }
+        
+        .header-subtitle { 
+            font-size: 1.2rem; 
+        }
+        
+        .header-photo-container {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+        }
+        
+        .admin-stats { 
+            grid-template-columns: 1fr; 
+        }
+        
+        .admin-header {
+            flex-direction: column;
+            gap: 1rem;
+            text-align: center;
+        }
     }
     
     /* Event card */
@@ -1103,45 +1197,6 @@ def load_css():
     .stat-label {
         font-size: 1rem;
         opacity: 0.8;
-    }
-    
-    /* Responsive */
-    @media (max-width: 768px) {
-        .header-container {
-            flex-direction: column;
-            text-align: center;
-            padding: 2rem 1rem;
-            min-height: auto;
-        }
-        
-        .header-content {
-            padding-right: 0;
-            margin-bottom: 2rem;
-        }
-        
-        .header-title { 
-            font-size: 2.5rem; 
-        }
-        
-        .header-subtitle { 
-            font-size: 1.2rem; 
-        }
-        
-        .header-photo-container {
-            width: 200px;
-            height: 200px;
-            margin: 0 auto;
-        }
-        
-        .admin-stats { 
-            grid-template-columns: 1fr; 
-        }
-        
-        .admin-header {
-            flex-direction: column;
-            gap: 1rem;
-            text-align: center;
-        }
     }
     
     /* Data table styling */
@@ -1322,7 +1377,32 @@ def load_css():
         margin-top: 0.5rem;
         cursor: pointer;
     }
+    
+    /* Additional mobile optimizations */
+    @media (max-width: 768px) {
+        .stTabs [data-baseweb="tab-list"] {
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE and Edge */
+        }
+        
+        .stTabs [data-baseweb="tab-list"]::-webkit-scrollbar {
+            display: none; /* Chrome, Safari and Opera */
+        }
+        
+        /* Ensure tab content fits */
+        .stTabs [data-baseweb="tab"] > div {
+            min-width: max-content;
+        }
+        
+        /* Adjust tab spacing for better mobile experience */
+        .stTabs [data-baseweb="tab"] {
+            margin: 0 2px;
+        }
+    }
     </style>
+    
+    <!-- Add viewport meta for better mobile responsiveness -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     """, unsafe_allow_html=True)
 
 def get_image_base64(image_path):
@@ -2143,8 +2223,8 @@ def render_booking_tab():
     st.markdown("---")
     st.markdown("""
     <div class="admin-access-section">
-        <h3>Yanti Studios </h3>
-        
+        <h3>Yanti Studios Admin Portal</h3>
+        <p>For website administrators only</p>
     </div>
     """, unsafe_allow_html=True)
     
@@ -2152,7 +2232,7 @@ def render_booking_tab():
     col1, col2, col3 = st.columns([1, 2, 1])
     
     with col2:
-        if st.button("🎛️", 
+        if st.button("🔐 Admin Access", 
                     key="booking_tab_admin_button",
                     use_container_width=True,
                     type="secondary"):
@@ -2206,7 +2286,7 @@ def main():
     if 'last_booking_click' not in st.session_state:
         st.session_state.last_booking_click = None
     
-    
+    # Check if admin access is requested
     if st.session_state.admin_access:
         render_admin_portal()
     
@@ -2214,7 +2294,7 @@ def main():
         # Regular website content with photo header
         render_header_with_photo()
         
-        # Navigation Tabs
+        # Navigation Tabs - FIXED FOR MOBILE
         tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9 = st.tabs([
             "🏠 Home", "🎵 Music", "🎬 Films", "📅 Events", "📸 Gallery", 
             "📰 Press", "🎤 Bookings", "📞 Contact", "💌 Subscribe"
@@ -2583,7 +2663,7 @@ def main():
             
             st.markdown('</div>', unsafe_allow_html=True)
         
-        
+        # BOOKINGS TAB
         with tab7:
             render_booking_tab()
         
