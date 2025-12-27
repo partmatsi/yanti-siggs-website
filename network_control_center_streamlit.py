@@ -950,9 +950,9 @@ def load_css():
         box-shadow: 0 5px 15px rgba(6, 214, 160, 0.4);
     }
     
-    /* TAB STYLING FIX - Horizontal layout with icons and text side-by-side */
+    /* Tab styling */
     .stTabs [data-baseweb="tab-list"] {
-        gap: 1rem;
+        gap: 2rem;
         background: rgba(26, 26, 46, 0.1);
         border-radius: 10px;
         padding: 0.5rem;
@@ -960,41 +960,16 @@ def load_css():
     
     .stTabs [data-baseweb="tab"] {
         height: 50px;
-        white-space: nowrap;
-        border-radius: 8px;
-        padding: 0 1.5rem;
+        white-space: pre-wrap;
+        border-radius: 10px 10px 0 0;
+        padding: 0 1rem;
         font-weight: 600;
         color: #ffa726 !important;
-        display: flex !important;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-    }
-    
-    .stTabs [data-baseweb="tab"] div {
-        display: flex !important;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        flex-direction: row !important;
-    }
-    
-    .stTabs [data-baseweb="tab"] span {
-        display: inline !important;
-        line-height: 1.2 !important;
     }
     
     .stTabs [aria-selected="true"] {
         background: linear-gradient(135deg, #ff6b6b 0%, #ffa726 100%) !important;
         color: white !important;
-    }
-    
-    /* Ensure icon and text are on the same line */
-    .stTabs [data-baseweb="tab"] .st-emotion-cache-1f5j2v9 {
-        display: flex !important;
-        flex-direction: row !important;
-        align-items: center !important;
-        gap: 8px !important;
     }
     
     /* Event card */
@@ -1166,18 +1141,6 @@ def load_css():
             flex-direction: column;
             gap: 1rem;
             text-align: center;
-        }
-        
-        /* Responsive tabs */
-        .stTabs [data-baseweb="tab-list"] {
-            gap: 0.5rem;
-            padding: 0.25rem;
-            overflow-x: auto;
-        }
-        
-        .stTabs [data-baseweb="tab"] {
-            padding: 0 1rem;
-            font-size: 0.9rem;
         }
     }
     
@@ -1358,28 +1321,6 @@ def load_css():
         font-weight: bold;
         margin-top: 0.5rem;
         cursor: pointer;
-    }
-    
-    /* Custom tab styling to force horizontal layout */
-    div[data-testid="stTabs"] > div > div {
-        overflow-x: auto !important;
-        display: flex !important;
-        flex-wrap: nowrap !important;
-    }
-    
-    /* Hide scrollbar but keep functionality */
-    div[data-testid="stTabs"] > div > div::-webkit-scrollbar {
-        height: 4px;
-    }
-    
-    div[data-testid="stTabs"] > div > div::-webkit-scrollbar-track {
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 2px;
-    }
-    
-    div[data-testid="stTabs"] > div > div::-webkit-scrollbar-thumb {
-        background: #ff6b6b;
-        border-radius: 2px;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -2273,67 +2214,14 @@ def main():
         # Regular website content with photo header
         render_header_with_photo()
         
-        # Navigation Tabs - Using manual HTML/CSS styling for better control
-        st.markdown("""
-        <style>
-        .custom-tabs {
-            display: flex;
-            justify-content: center;
-            gap: 5px;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-        }
-        .custom-tab {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 12px 20px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            font-weight: 600;
-            color: #ffa726;
-            text-decoration: none;
-        }
-        .custom-tab:hover {
-            background: rgba(255, 107, 107, 0.1);
-            transform: translateY(-2px);
-        }
-        .custom-tab.active {
-            background: linear-gradient(135deg, #ff6b6b 0%, #ffa726 100%);
-            color: white;
-            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
-        }
-        </style>
-        """, unsafe_allow_html=True)
+        # Navigation Tabs
+        tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9 = st.tabs([
+            "🏠 Home", "🎵 Music", "🎬 Films", "📅 Events", "📸 Gallery", 
+            "📰 Press", "🎤 Bookings", "📞 Contact", "💌 Subscribe"
+        ])
         
-        # Initialize active tab in session state
-        if 'active_tab' not in st.session_state:
-            st.session_state.active_tab = "Home"
-        
-        # Create tabs using columns for better horizontal layout
-        tab_names = [
-            ("🏠", "Home"), ("🎵", "Music"), ("🎬", "Films"), 
-            ("📅", "Events"), ("📸", "Gallery"), ("📰", "Press"),
-            ("🎤", "Bookings"), ("📞", "Contact"), ("💌", "Subscribe")
-        ]
-        
-        # Create tab headers
-        cols = st.columns(len(tab_names))
-        for idx, (icon, name) in enumerate(tab_names):
-            with cols[idx]:
-                if st.button(f"{icon} {name}", 
-                           key=f"tab_{name}",
-                           use_container_width=True,
-                           type="primary" if st.session_state.active_tab == name else "secondary"):
-                    st.session_state.active_tab = name
-                    st.rerun()
-        
-        # Render content based on active tab
-        if st.session_state.active_tab == "Home":
-            # HOME TAB CONTENT
+        # HOME TAB
+        with tab1:
             col1, col2 = st.columns([2, 1])
             
             with col1:
@@ -2395,31 +2283,24 @@ def main():
                     st.info("Events functionality is currently being updated.")
                 
                 if st.button("View All Events", key="home_events"):
-                    st.session_state.active_tab = "Events"
-                    st.rerun()
+                    st.switch_page("?tab=Events")
                 st.markdown('</div>', unsafe_allow_html=True)
             
             with col2:
                 # Quick Links
                 st.markdown('<div class="card"><h2 class="card-title">🔗 Quick Links</h2>', unsafe_allow_html=True)
                 if st.button("🎶 Listen to Music", use_container_width=True):
-                    st.session_state.active_tab = "Music"
-                    st.rerun()
+                    st.switch_page("?tab=Music")
                 if st.button("🎬 Watch Films", use_container_width=True):
-                    st.session_state.active_tab = "Films"
-                    st.rerun()
+                    st.switch_page("?tab=Films")
                 if st.button("📅 View Events Calendar", use_container_width=True):
-                    st.session_state.active_tab = "Events"
-                    st.rerun()
+                    st.switch_page("?tab=Events")
                 if st.button("🎤 Book for Event", use_container_width=True):
-                    st.session_state.active_tab = "Bookings"
-                    st.rerun()
+                    st.switch_page("?tab=Bookings")
                 if st.button("📸 View Gallery", use_container_width=True):
-                    st.session_state.active_tab = "Gallery"
-                    st.rerun()
+                    st.switch_page("?tab=Gallery")
                 if st.button("💌 Subscribe", use_container_width=True):
-                    st.session_state.active_tab = "Subscribe"
-                    st.rerun()
+                    st.switch_page("?tab=Subscribe")
                 st.markdown('</div>', unsafe_allow_html=True)
                 
                 # Latest Music
@@ -2484,8 +2365,8 @@ def main():
                 """, unsafe_allow_html=True)
                 st.markdown('</div>', unsafe_allow_html=True)
         
-        elif st.session_state.active_tab == "Music":
-            # MUSIC TAB CONTENT
+        # MUSIC TAB
+        with tab2:
             st.markdown('<div class="card"><h2 class="card-title">🎵 Music & DJ Sets</h2>', unsafe_allow_html=True)
             st.write("""
             Experience the unique sound of Yanti Siggs - a fusion of house, afrobeat, 
@@ -2547,8 +2428,8 @@ def main():
             
             st.markdown('</div>', unsafe_allow_html=True)
         
-        elif st.session_state.active_tab == "Films":
-            # FILMS TAB CONTENT
+        # FILMS TAB
+        with tab3:
             st.markdown('<div class="card"><h2 class="card-title">🎬 Film Projects</h2>', unsafe_allow_html=True)
             st.write("""
             Explore Yanti Siggs' filmography - from directing and producing to acting, 
@@ -2594,8 +2475,8 @@ def main():
             
             st.markdown('</div>', unsafe_allow_html=True)
         
-        elif st.session_state.active_tab == "Events":
-            # EVENTS TAB CONTENT
+        # EVENTS TAB
+        with tab4:
             st.markdown('<div class="card"><h2 class="card-title">📅 Upcoming Events & Shows</h2>', unsafe_allow_html=True)
             st.write("""
             Catch Yanti Siggs live at these upcoming events. From club nights to film premieres, 
@@ -2641,8 +2522,8 @@ def main():
             
             st.markdown('</div>', unsafe_allow_html=True)
         
-        elif st.session_state.active_tab == "Gallery":
-            # GALLERY TAB CONTENT
+        # GALLERY TAB
+        with tab5:
             st.markdown('<div class="card"><h2 class="card-title">📸 Visual Portfolio</h2>', unsafe_allow_html=True)
             st.write("""
             A visual journey through Yanti Siggs' creative world - from DJ sets and film shoots 
@@ -2674,8 +2555,8 @@ def main():
             
             st.markdown('</div>', unsafe_allow_html=True)
         
-        elif st.session_state.active_tab == "Press":
-            # PRESS TAB CONTENT
+        # PRESS TAB
+        with tab6:
             st.markdown('<div class="card"><h2 class="card-title">📰 Press & Media</h2>', unsafe_allow_html=True)
             st.write("""
             Featured press coverage and media appearances highlighting Yanti Siggs' work 
@@ -2702,12 +2583,12 @@ def main():
             
             st.markdown('</div>', unsafe_allow_html=True)
         
-        elif st.session_state.active_tab == "Bookings":
-            # BOOKINGS TAB CONTENT
+        
+        with tab7:
             render_booking_tab()
         
-        elif st.session_state.active_tab == "Contact":
-            # CONTACT TAB CONTENT
+        # CONTACT TAB
+        with tab8:
             st.markdown('<div class="card"><h2 class="card-title">📞 Contact Yanti Studios</h2>', unsafe_allow_html=True)
             st.write("""
             Get in touch with Yanti Siggs and the Yanti Studios team for collaborations, 
@@ -2764,8 +2645,8 @@ def main():
             
             st.markdown('</div>', unsafe_allow_html=True)
         
-        elif st.session_state.active_tab == "Subscribe":
-            # SUBSCRIBE TAB CONTENT
+        # SUBSCRIBE TAB
+        with tab9:
             st.markdown('<div class="card"><h2 class="card-title">💌 Subscribe to Newsletter</h2>', unsafe_allow_html=True)
             st.write("""
             Stay updated with Yanti Siggs' latest music releases, film projects, 
