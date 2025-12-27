@@ -10,6 +10,17 @@ from PIL import Image
 import io
 import requests
 
+# === CRITICAL CONFIGURATION FOR RENDER DEPLOYMENT ===
+st.set_page_config(
+    page_title="Yanti Siggs | DJ • Filmmaker • Entrepreneur",
+    page_icon="🎵",
+    layout="wide",
+    initial_sidebar_state="collapsed"
+)
+
+# Handle base path for static assets (important for subdirectory hosting)
+BASE_PATH = os.getenv('RENDER_EXTERNAL_URL', '')
+
 # Yanti Siggs Website Class
 class YantiSiggsWebsite:
     def __init__(self):
